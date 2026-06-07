@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>
+            Javascript form Task
+        </title>
+    </head>
+    <body>
+        <h1>Form</h1>
+        <form>
+            <input type="text" id="name" required placeholder="Enter your name"></input>
+            <input type="text" id="age" required placeholder="Enter your age"></input>
+            <button type="button" onclick="SubmitForm()">Submit</button>
+        </form>
+        <h3>Values entered:</h3>
+        <div id="output"></div>
+        <script>
+            function SubmitForm(){
+                const name=document.getElementById("name").value;
+                const age=document.getElementById("age").value;
+                document.getElementById("output").innerHTML="Name: "+name+"<br>Age: "+age+"</br>";
+            }
+        </script>
+    </body>
+</html>
