@@ -1,23 +1,92 @@
+<!DOCTYPE html>
 <html>
     <head>
-        <title>
-            Javascript form Task
-        </title>
+        <title>Javascript form Task</title>
+        <style>
+            .overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.4);
+                backdrop-filter: blur(8px);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .modal-box {
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+                width: 300px;
+            }
+
+            .hidden {
+                display: none !important;
+            }
+        </style>
     </head>
     <body>
-        <h1>Form</h1>
-        <form>
+        <h1 style="text-align: center;">Form</h1>
+        <form align="center">
             <input type="text" id="name" required placeholder="Enter your name"></input>
             <input type="text" id="age" required placeholder="Enter your age"></input>
             <button type="button" onclick="SubmitForm()">Submit</button>
         </form>
-        <h3>Values entered:</h3>
+
+        <h3 style="text-align: center;">Values entered:</h3>
         <div id="output"></div>
+        
+        <div id="modalOverlay" class="overlay hidden">
+            <div class="modal-box">
+                <h2>Review Details</h2>
+                <p>Here is what you entered:</p>
+
+                <div id="modalSummary"></div>
+
+                <div class="additional_input">
+                    <label for="extra"><strong>Add Additional Details:</strong></label>
+                    <textarea id="extra" placeholder="Type any extra info here"></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" onclick="CloseModal()">Cancel</button>
+                    <button type="button" onclick="SaveAllDetails()">Save & Finalize</button>
+                </div>
+            </div>
+        </div>
         <script>
-            function SubmitForm(){
-                const name=document.getElementById("name").value;
-                const age=document.getElementById("age").value;
-                document.getElementById("output").innerHTML="Name: "+name+"<br>Age: "+age+"</br>";
+            let tempName = "";
+            let tempAge = "";
+
+            function SubmitForm() {
+                tempName = document.getElementById("name").value;
+                tempAge = document.getElementById("age").value;
+                if (!tempName || !tempAge) {
+                    alert("Please fill out both Name and Age fields first!");
+                    return;
+                }
+                document.getElementById("modalSummary").innerHTML = "<strong>Name:</strong> " + tempName + "<br><strong>Age:</strong> " + tempAge;
+                document.getElementById("modalOverlay").classList.remove("hidden");
+            }
+
+            function CloseModal() {
+                document.getElementById("extra").value = "";
+                document.getElementById("modalOverlay").classList.add("hidden");
+            }
+
+            function SaveAllDetails() {
+                const extraDetails = document.getElementById("extra").value;
+
+                let finalOutput = "Name: " + tempName + "<br>Age: " + tempAge;
+                if (extraDetails.trim() !== "") {
+                    finalOutput += "<br>Additional Info: " + extraDetails;
+                }
+
+                document.getElementById("output").innerHTML = finalOutput;
+                CloseModal();
             }
         </script>
     </body>
